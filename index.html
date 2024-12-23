@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les énigmes de noel</title>
+    <link rel="stylesheet" href="s.css">
+    <style>
+        /* Basic CSS for simplicity */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1; /* Light snow-like background */
+            color: #333;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background-color: #b22222; /* Christmas red */
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            background-image: url('https://www.transparenttextures.com/patterns/snowflakes.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        header h1 {
+            font-size: 36px;
+            font-family: 'Georgia', serif;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            font-style: italic;
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-bottom: 10px; /* Add some space below the h2 */
+        }
+
+        p {
+            margin-top: 10px; /* Add some space above the p */
+        }
+
+                /* Christmas Tree Icon Styling */
+        .enigma-list a {
+            font-size: 20px;
+            display: block;
+            padding: 10px;
+            color: #228b22; /* Forest green */
+            text-decoration: none;
+            margin: 10px 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .enigma-list a:hover {
+            background-color: #ff6347; /* Tomato red */
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .enigma-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .enigma-list li {
+            margin: 10px 0;
+        }
+
+        .enigma {
+            background: white;
+            border: 2px solid #ccc;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .indice{
+            font-style: italic;
+            color:#555;
+        }
+
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+
+        button {
+            background-color: #228b22; /* Forest green */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #006400; /* Dark green */
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .resolved {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black with opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 30px;
+            border: 2px solid #b22222; /* Christmas red border */
+            width: 80%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* The cards */
+        #the_card {
+            text-align: center; /* Align content to the center */
+            margin-top: 30px; /* Add some spacing from the top */
+        }
+
+        /* Ensure the heading and paragraph behave as block elements */
+        h2 {
+            margin-bottom: 20px; /* Add spacing between the heading and the paragraph */
+            display: block;      /* Ensure block formatting */
+        }
+
+        p {
+            margin-top: 10px; /* Add some spacing above the paragraph */
+            display: block;   /* Ensure block formatting */
+        }
+
+        /* Flexbox layout for the cards */
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between cards */
+            flex-wrap: wrap; /* Allow wrapping of cards if the screen is small */
+            margin-top: 20px; /* Space between the heading and the cards */
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* Card layout */
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            width: 300px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Stack the content vertically */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: #e43737; /* Christmas red */
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-footer {
+            padding: 10px;
+            background-color: #006400;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+        }
+
+        /* Body of the card */
+        .card-body {
+            padding: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Christmas decorations */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { top: -10px; }
+            100% { top: 100vh; }
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #b22222;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            header p {
+                font-size: 14px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 260px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Les énigmes de Papa Noel pour Juliette</h1>
+        <p id="enigmas_count">Enigmes restantes: <span id="remaining-enigmas">3</span></p>
+    </header>
+
+    <div id="the_modals">  
+
+        <ul class="enigma-list">
+            <li><a href="#" id="link1" onclick="openModal(1)">🎄 L'énigme de l'étoile perdue</a></li>
+            <li><a href="#" id="link2" onclick="openModal(2)">🎁 Le mystère du lutin farceur</a></li>
+            <li><a href="#" id="link3" onclick="openModal(3)">❄️ La devinette de la piste enneigée</a></li>
+        </ul>
+
+        <!-- The Modals -->
+        
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal(1)">&times;</span>
+                <h2>Enigme 1: La lettre mancante</h2>
+                <p>Trouve la lettre mancante à cette suite: P, P, N, Q, T, D, D, ...?</p>
+                <p class="indice">Indice: Tino le rouge en est l'auteur..</p>
+                <input type="text" id="answer1" placeholder="Your answer">
+                <button onclick="checkAnswer(1, 'c')">Submit</button>
+            </div>
+        </div>
+
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal(2)">&times;</span>
+                <h2>Enigme 2: Le puzzle de chiffres</h2>
+                <p>Le premier chiffre est la moitié du deuxième</p>
+                <p>Les premier, troisième et quatrième chiffres permettent de faire un triangle de Pythagore</p>
+                <p>La somme de tous ces chiffres est 20 </p>
+                <input type="text" id="answer2" placeholder="****">
+                <button onclick="checkAnswer(2, '4835')">Submit</button>
+            </div>
+        </div>
+
+        <div id="modal3" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal(3)">&times;</span>
+                <h2>Enigme 3: La devinette finale</h2>
+                <p>Je peux voler mais je n'ai pas d'ailes</p>
+                <p>Je peux pleurer mais je n'ai pas d'yeux</p>
+                <p>Qui suis-je ?</p>
+                <input type="text" id="answer3" placeholder="Your answer">
+                <button onclick="checkAnswer(3, 'nuage')">Submit</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="the_card" class="card-container hidden">
+        <!-- Gift Message -->
+        <div style="display: block;">
+            <h2>Ton cadeau: un concert de ton choix (voir ci-dessous des exemples..).</h2>
+            <p>Contacter l'agence Ntaka pour définir une date et le concert choisi.</p>
+        </div>
+    
+        <!-- Cards Wrapper -->
+        <div class="cards-wrapper">
+
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-header card-exploration">
+                    <h3>15000 voix pour les plus belles chansons</h3>
+                </div>
+                <div class="card-body">
+                    <p>Séquence nostalgie à pleins tubes !
+                        15 000 choristes répartis en 30 zéniths, les meilleurs solistes français et des musiciens de renoms vous plongeront dans l’ambiance du patrimoine de la chanson française.                        
+                        Un spectacle unique en France !                        
+                        De Jean-Jacques Goldman à Jacques Brel, en passant par Daniel Balavoine, Edith Piaf ou encore Johnny Hallyday, les choristes chaque soir vous présenteront le trésor du paysage musical français (Classement IFOP et RTL).</p>
+                </div>
+                <div class="card-footer">
+                    <p>A toulouse</p>
+                    <p>Le Vendredi 17 Janvier 2025</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card ">
+                <div class="card-header card-discovery">
+                    <h3>Molière l'opéra urbain</h3>
+                </div>
+                <div class="card-body">
+                    <p>MOLIERE, le nouveau spectacle musical événement de Dove Attia, enfin sur scène.
+                        Avant-gardiste, casseur de codes, visionnaire, provocateur… Plongez au cœur de la fabuleuse histoire du génie MOLIERE.                        
+                        Ce spectacle familial met en scène près de 30 danseurs, musiciens et comédiens dans de somptueux décors et plus de 250 costumes.                        
+                        MOLIERE, le spectacle musical ; actuellement sur la scène du Dôme de Paris - Palais des sports et en tournée dans toute la France en 2024.                        
+                        Ce spectacle musical d’un genre nouveau relate le parcours hors du commun de Jean Baptiste Poquelin, alias Molière, l’emblème du succès populaire français.</p>
+                </div>
+                <div class="card-footer">
+                    <p>A toulouse</p>
+                    <p>Le Samedi 17 Mai 2025</p>
+                </div>
+            </div>
+        
+            <!-- Card 3 -->
+            <div class="card ">
+                <div class="card-header card-sport">
+                    <h3>Kendji Girac</h3>
+                </div>
+                <div class="card-body">
+                    <p>Kendji Girac - Tournée Anniversaire : Nos 10 ans ! Préparez-vous à vivre une expérience inoubliable ! 
+                        Pour célébrer une décennie de succès, Kendji Girac, l'artiste aux plus 6 millions d'albums vendus et plus 2 millions de spectateurs conquis, se lance dans une tournée exceptionnelle dans toute la France ! 
+                        Kendji vous attend sur scène pour partager ensemble des souvenirs mémorables et créer de nouveaux instants magiques lors d’un voyage musical inédit ! </p>
+                </div>
+                <div class="card-footer">
+                    <p>A toulouse</p>
+                    <p>Le Samedi 28 Mars <u>2026 (!)</u></p>
+                </div>
+            </div>
+        
+            <p>Contacter l'agence Ntaka pour définir une date et le concert choisi.</p>
+        </div>
+        
+    </div>
+
+    <footer>
+        <p>Créé par l'équipe du père noel</p>
+    </footer>
+    
+    <script>
+        let enigmasLeft = 3;
+        let answers = ["c", "4835", "nuage"];
+
+        // Disable the link to prevent modal from opening
+        function disableLink(enigmaNumber) {
+            document.getElementById(`link${enigmaNumber}`).onclick = function(event) {
+                event.preventDefault(); // Prevent modal from opening
+            };
+            document.getElementById(`link${enigmaNumber}`).style.color = '#ccc'; // Change link color to indicate it's disabled
+        }
+
+        // Enable the link to allow modal to open again
+        function enableLink(enigmaNumber) {
+            document.getElementById(`link${enigmaNumber}`).onclick = function() {
+                openModal(enigmaNumber);
+            };
+            document.getElementById(`link${enigmaNumber}`).style.color = ''; // Restore original color
+        }
+
+        function openModal(enigmaNumber) {
+            document.getElementById(`modal${enigmaNumber}`).style.display = "block";
+        }
+
+        function closeModal(enigmaNumber) {
+            document.getElementById(`modal${enigmaNumber}`).style.display = "none";
+        }
+
+        function checkAnswer(enigmaNumber, correctAnswer) {
+            const userAnswer = document.getElementById(`answer${enigmaNumber}`).value.toLowerCase().trim();
+            if (userAnswer === correctAnswer) {
+                closeModal(enigmaNumber);
+                alert(`🎉 Corect! Enigme ${enigmaNumber} résolue! 🎉`);
+                document.getElementById(`modal${enigmaNumber}`).classList.add('resolved');
+                document.getElementById(`answer${enigmaNumber}`).disabled = true;
+                document.querySelector(`#modal${enigmaNumber} button`).disabled = true;
+                enigmasLeft--;
+                document.getElementById("remaining-enigmas").textContent = enigmasLeft;
+
+                // Disable the link after the enigma is solved
+                disableLink(enigmaNumber);
+
+                if (enigmasLeft <= 0) {
+                    // now we have to implement the new voucher to be seen ...
+                    document.getElementById('enigmas_count').classList.add('hidden');
+                    document.getElementById('the_modals').classList.add('hidden');
+                    document.getElementById('the_card').classList.remove('hidden');
+                }
+
+            } else {
+                alert("❌ '" + userAnswer + "' est faux! Essaie encore!");
+            }
+        }
+
+        //christmas snowflakes:
+        const snowflakes = document.createElement('div');
+        snowflakes.classList.add('snowflakes');
+        document.body.appendChild(snowflakes);
+
+        // Create 50 snowflakes
+        for (let i = 0; i < 50; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflakes.appendChild(snowflake);
+            
+            // Randomize snowflake position and size
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`; // Randomize falling speed
+            snowflake.style.animationDelay = `${Math.random() * 5}s`; // Randomize delay
+            snowflake.style.width = `${Math.random() * 5 + 5}px`;
+            snowflake.style.height = snowflake.style.width;
+        }
+    </script>
+</body>
+</html>
